@@ -17,4 +17,8 @@
     <string name="filterrecipes">FilterRecipes</string>
     <string name="please_check_your_internet_connection">Please check your Internet connection</string>
     <string name="no_internet">No Internet</string>
+    <string name="recipeimagedesc">recipeImageDesc</string>
+    <string name="fav_icon">fav_icon</string>
+    <string name="veganimage">veganImage</string>
+    <string name="clockimage">clockImage</string>
 </resources>
