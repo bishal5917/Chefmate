@@ -14,4 +14,7 @@
     <string name="recipes">Recipes</string>
     <string name="favourite">Favourite</string>
     <string name="joke">Joke</string>
+    <string name="filterrecipes">FilterRecipes</string>
+    <string name="please_check_your_internet_connection">Please check your Internet connection</string>
+    <string name="no_internet">No Internet</string>
 </resources>

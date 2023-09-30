@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/my_nav"
-    app:startDestination="@id/recipes_Fragment">
+    app:startDestination="@id/recipesFragment">
 
     <fragment
-        android:id="@+id/recipes_Fragment"
+        android:id="@+id/recipesFragment"
         android:name="com.example.recipesapp.Recipes_Fragment"
         android:label="fragment_recipes_"
         tools:layout="@layout/fragment_recipes_" />
