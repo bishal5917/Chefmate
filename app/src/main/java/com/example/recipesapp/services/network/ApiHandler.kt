@@ -18,12 +18,14 @@ import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeoutException
 import javax.inject.Inject
 
-class ApiHandler @Inject constructor(private val okHttpClient: OkHttpClient) {
+class ApiHandler {
     //getting the user token
-    private val token = "s"
+    private val token = "token"
     private val apiKey = ApiConfig.apiKey
     private val baseUrl = ApiConfig.baseUrl
     private val gson = Gson()
+    private val okHttpClient = OkHttpClient.Builder().readTimeout(15, TimeUnit.SECONDS)
+        .connectTimeout(15, TimeUnit.SECONDS).build()
 
     // GET request
     fun get(api: String, header: Map<String, String>? = null, isAuth: Boolean = false): Any? {
@@ -32,8 +34,9 @@ class ApiHandler @Inject constructor(private val okHttpClient: OkHttpClient) {
             header?.forEach { (key, value) ->
                 addHeader(key, value)
             }
-            if (isAuth) {
-                addHeader("Authorization", "Bearer $token")
+            if (apiKey.isNotEmpty()) {
+//                addHeader("Authorization", "Bearer $token")
+                addHeader("x-api-key", apiKey)
             }
             get()
         }.build()

@@ -17,34 +17,14 @@ class Recipes_Fragment : Fragment() {
         // Inflate the layout for this fragment
 //        val view = inflater.inflate(R.layout.recipes_card, container, false)
 
-        val recipes = mutableListOf<RecipeResponseModel>(
-            RecipeResponseModel(
-                "Best Chicken Soup"
-            ),
-            RecipeResponseModel(
-                "Best Chicken Soup"
-            ),
-            RecipeResponseModel(
-                "Best Chicken Soup"
-            ),
-            RecipeResponseModel(
-                "Best Chicken Soup"
-            ),
-            RecipeResponseModel(
-                "Best Chicken" +
-                        " Soup"
-            ),
-            RecipeResponseModel(
-                "Best Chicken Soup"
-            ), RecipeResponseModel
-                ("Best Chicken Soup"), RecipeResponseModel("Best Chicken Soup"),
-            RecipeResponseModel("Best Chicken Soup")
+        val recipes = mutableListOf<RecipeResponseModel.Recipe>(
+
         )
 
-        val adapter = RecipesAdapter(recipes)
+//        val adapter = RecipesAdapter(recipes)
         val recipesRecyclerView = view?.findViewById<RecyclerView>(R.id.rvRecipes)
         recipesRecyclerView?.layoutManager = LinearLayoutManager(context)
-        recipesRecyclerView?.adapter = adapter
+//        recipesRecyclerView?.adapter = adapter
 
 //        return adapter.onCreateViewHolder(container!!, 10)
         return view

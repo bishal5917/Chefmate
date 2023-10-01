@@ -1,6 +1,11 @@
 package com.example.recipesapp.di
 
 import com.example.recipesapp.core.configs.ApiConfig
+import com.example.recipesapp.features.data.datasource.UserRemoteDatasource
+import com.example.recipesapp.features.data.datasource.UserRemoteDatasourceImpl
+import com.example.recipesapp.features.data.repositories.UserRepositoryImpl
+import com.example.recipesapp.features.domain.repositories.UserRepository
+import com.example.recipesapp.features.domain.usecases.GetRecipeUsecase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -36,6 +41,21 @@ object AppModule {
             .addConverterFactory(gsonConverterFactory).build()
     }
 
+    @Provides
+    fun provideDataSource(): UserRemoteDatasource {
+        return UserRemoteDatasourceImpl()
+    }
+
+    @Provides
+    fun provideRepository(dataSource: UserRemoteDatasource): UserRepository {
+        return UserRepositoryImpl(dataSource)
+    }
+
+    //registering usecases
+    @Provides
+    fun provideRecipesUsecase(repo: UserRepository): GetRecipeUsecase {
+        return GetRecipeUsecase(repo)
+    }
 //    @Singleton
 //    @Provides
 //    fun provideApiHandler(retrofit: Retrofit): FoodRecipesApi {
