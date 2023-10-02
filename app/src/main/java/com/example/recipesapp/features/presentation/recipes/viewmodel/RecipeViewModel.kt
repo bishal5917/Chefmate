@@ -1,6 +1,8 @@
 package com.example.recipesapp.features.presentation.recipes.viewmodel
 
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.recipesapp.features.domain.usecases.GetRecipeUsecase
@@ -14,8 +16,8 @@ import javax.inject.Inject
 class RecipeViewModel @Inject constructor(private val getRecipeUsecase: GetRecipeUsecase) :
     ViewModel() {
 
-    private val _recipeState = MutableStateFlow(RecipeState.IDLE)
-    val recipeState = _recipeState.asStateFlow()
+    private val _recipeState = MutableLiveData<RecipeState>(RecipeState(RecipeState.Status.IDLE))
+    val recipeState : LiveData<RecipeState> = _recipeState
 
     fun onEvent(event: RecipeEvent) {
         when (event) {
@@ -26,17 +28,25 @@ class RecipeViewModel @Inject constructor(private val getRecipeUsecase: GetRecip
     }
 
     private fun getRecipes() = viewModelScope.launch {
-        _recipeState.value = _recipeState.value.copy(
-            status = RecipeState.Status.LOADING, message = "Getting Recipes..."
+        _recipeState.postValue(
+            _recipeState.value?.copy(
+                status = RecipeState.Status.LOADING, message = "Getting Recipes..."
+            )
         )
         try {
             val result = getRecipeUsecase.call(Unit)
-            _recipeState.value = _recipeState.value.copy(
-                status = RecipeState.Status.SUCCESS, message = "Recipes fetched", recipes = result,
+            _recipeState.postValue(
+                _recipeState.value?.copy(
+                    status = RecipeState.Status.SUCCESS,
+                    message = "Recipes Fetched...",
+                    recipes = result
+                )
             )
         } catch (ex: Exception) {
-            _recipeState.value = _recipeState.value.copy(
-                status = RecipeState.Status.FAILED, message = "${ex.message}"
+            _recipeState.postValue(
+                _recipeState.value?.copy(
+                    status = RecipeState.Status.FAILED, message = ex.localizedMessage
+                )
             )
             Log.d("EX", "Exception: ${ex.message}")
         }

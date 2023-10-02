@@ -10,6 +10,7 @@ import com.example.recipesapp.core.errors.FetchDataException
 import com.google.gson.Gson
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import okhttp3.internal.wait
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
@@ -30,6 +31,8 @@ class ApiHandler {
     // GET request
     fun get(api: String, header: Map<String, String>? = null, isAuth: Boolean = false): Any? {
 //        val token = if (isAuth) SharedPreference.getToken(context) else null
+        println("CALLED IN GET")
+
         val request = Request.Builder().url(baseUrl + api).apply {
             header?.forEach { (key, value) ->
                 addHeader(key, value)
@@ -41,13 +44,19 @@ class ApiHandler {
             get()
         }.build()
         try {
+            println("CALLED IN TRY")
             val response = okHttpClient.newCall(request).execute()
+            if (response.isSuccessful){
+                println("success")
+            }
+            println("$baseUrl$api")
             Log.d("API", "$baseUrl$api")
             Log.d("APIStatus", "${response.code}")
             Log.d("APIResponse", "${response.body}")
             return processResponse(response)
         } catch (ex: Exception) {
             throw handleException(ex)
+            println(ex)
         }
     }
 
