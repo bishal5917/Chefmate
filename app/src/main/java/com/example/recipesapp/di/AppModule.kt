@@ -6,6 +6,7 @@ import com.example.recipesapp.features.data.datasource.UserRemoteDatasourceImpl
 import com.example.recipesapp.features.data.repositories.UserRepositoryImpl
 import com.example.recipesapp.features.domain.repositories.UserRepository
 import com.example.recipesapp.features.domain.usecases.GetRecipeUsecase
+import com.example.recipesapp.services.network.ApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,31 +20,9 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
-    @Singleton
     @Provides
-    fun provideHttpClient(): OkHttpClient {
-        return OkHttpClient.Builder().readTimeout(15, TimeUnit.SECONDS)
-            .connectTimeout(15, TimeUnit.SECONDS).build()
-    }
-
-    @Singleton
-    @Provides
-    fun provideConverterFactory(): GsonConverterFactory {
-        return GsonConverterFactory.create()
-    }
-
-    @Singleton
-    @Provides
-    fun provideRetrofitInstance(
-        okHttpClient: OkHttpClient, gsonConverterFactory: GsonConverterFactory
-    ): Retrofit {
-        return Retrofit.Builder().baseUrl(ApiConfig.baseUrl).client(okHttpClient)
-            .addConverterFactory(gsonConverterFactory).build()
-    }
-
-    @Provides
-    fun provideDataSource(): UserRemoteDatasource {
-        return UserRemoteDatasourceImpl()
+    fun provideDataSource(apiService : ApiService): UserRemoteDatasource {
+        return UserRemoteDatasourceImpl(apiService)
     }
 
     @Provides
@@ -56,9 +35,4 @@ object AppModule {
     fun provideRecipesUsecase(repo: UserRepository): GetRecipeUsecase {
         return GetRecipeUsecase(repo)
     }
-//    @Singleton
-//    @Provides
-//    fun provideApiHandler(retrofit: Retrofit): FoodRecipesApi {
-//        return retrofit.create(FoodRecipesApi::class.java)
-//    }
 }

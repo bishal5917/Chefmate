@@ -29,8 +29,6 @@ class Recipes_Fragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        viewModel.onEvent(RecipeEvent.GetRecipes)
-        println("CALLED")
         val view = inflater.inflate(R.layout.recipes_card, container, false)
 
         viewModel.recipeState.observe(viewLifecycleOwner, Observer { recipeState ->

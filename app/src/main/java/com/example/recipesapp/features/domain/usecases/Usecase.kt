@@ -1,5 +1,5 @@
 package com.example.recipesapp.features.domain.usecases
 
-interface Usecase<Type, Params> {
-    suspend fun call(params: Params): Type
-}
+//interface Usecase<Flow<Resource<T>>, Params> {
+//    fun call(params: Params): Type
+//}
