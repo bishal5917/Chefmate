@@ -5,6 +5,7 @@ import com.example.recipesapp.services.network.ApiService
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
+import okhttp3.logging.HttpLoggingInterceptor
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
@@ -20,10 +21,9 @@ class NetworkModule {
     @Provides
     @Singleton
     fun providesRetrofit(): Retrofit {
-//        val interceptor = HttpLoggingInterceptor().apply {
-//            this.level = HttpLoggingInterceptor.Level.BODY
-//        }
-
+        val interceptor = HttpLoggingInterceptor().apply {
+            this.level = HttpLoggingInterceptor.Level.BODY
+        }
         val client = OkHttpClient.Builder().apply {
             this.connectTimeout(30, TimeUnit.SECONDS).readTimeout(20, TimeUnit.SECONDS)
                 .writeTimeout(25, TimeUnit.SECONDS)

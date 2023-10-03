@@ -4,18 +4,24 @@ import com.example.recipesapp.core.configs.ApiConfig
 import com.example.recipesapp.features.data.models.recipes.RecipeResponseModel
 import com.example.recipesapp.services.network.ApiHandler
 import com.example.recipesapp.services.network.ApiService
+import com.example.recipesapp.utils.GetQuery
+import com.example.recipesapp.utils.models.QueryRequestModel
 import com.google.gson.Gson
 import okhttp3.internal.wait
 import retrofit2.Response
 import javax.inject.Inject
 
 interface UserRemoteDatasource {
-    suspend fun getRecipes(): Response<RecipeResponseModel>
+    suspend fun getRecipes(queryRequestModel: QueryRequestModel): Response<RecipeResponseModel>
 }
 
-class UserRemoteDatasourceImpl @Inject constructor(private val apiService: ApiService): UserRemoteDatasource {
-    override suspend fun getRecipes(): Response<RecipeResponseModel> {
-        return apiService.getRecipes()
-    }
+class UserRemoteDatasourceImpl @Inject constructor(private val apiService: ApiService) :
+    UserRemoteDatasource {
+    override suspend fun getRecipes(queryRequestModel: QueryRequestModel): Response<RecipeResponseModel> {
+        return apiService.getRecipes(
+//            endPoint = "/recipes/complexSearch",
+            queryMap = GetQuery.getQueryMap(queryRequestModel)
+        )
 
+    }
 }

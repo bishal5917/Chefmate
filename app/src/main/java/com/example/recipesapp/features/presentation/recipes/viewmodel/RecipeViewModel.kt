@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.recipesapp.features.domain.usecases.GetRecipeUsecase
 import com.example.recipesapp.utils.Network.isNetworkAvailable
 import com.example.recipesapp.utils.Resource
+import com.example.recipesapp.utils.models.QueryRequestModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -26,17 +27,17 @@ class RecipeViewModel @Inject constructor(private val getRecipeUsecase: GetRecip
     fun onEvent(event: RecipeEvent) {
         when (event) {
             is RecipeEvent.GetRecipes -> {
-                getRecipes()
+                getRecipes(event.queryRequestModel)
             }
         }
     }
 
     init {
-        getRecipes()
+        getRecipes(QueryRequestModel())
     }
 
-    private fun getRecipes() {
-        getRecipeUsecase.call().onEach { result ->
+    private fun getRecipes(queryRequestModel: QueryRequestModel) {
+        getRecipeUsecase.call(queryRequestModel).onEach { result ->
             when (result) {
                 is Resource.Loading -> {
                     _recipeState.postValue(
@@ -52,6 +53,7 @@ class RecipeViewModel @Inject constructor(private val getRecipeUsecase: GetRecip
                             recipes = result.data,
                         )
                     )
+                    Log.d("RecipeViewModel", "API Response, ${result.data}")
                 }
                 is Resource.Error -> {
                     _recipeState.postValue(
