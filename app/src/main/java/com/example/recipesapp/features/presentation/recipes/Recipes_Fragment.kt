@@ -18,6 +18,7 @@ import com.example.recipesapp.features.data.models.recipes.RecipeResponseModel
 import com.example.recipesapp.features.presentation.recipes.viewmodel.RecipeEvent
 import com.example.recipesapp.features.presentation.recipes.viewmodel.RecipeState
 import com.example.recipesapp.features.presentation.recipes.viewmodel.RecipeViewModel
+import com.example.recipesapp.utils.models.QueryRequestModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -31,6 +32,7 @@ class Recipes_Fragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.recipes_card, container, false)
 
+//        viewModel.onEvent(RecipeEvent.GetRecipes(QueryRequestModel(addRecipeInformation = true)))
 //        viewModel.recipeState.observe(viewLifecycleOwner, { recipeState ->
 ////             Update UI based on the observed recipeState
 //            when {
