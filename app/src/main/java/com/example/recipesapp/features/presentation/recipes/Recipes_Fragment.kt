@@ -5,9 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.runtime.LaunchedEffect
+//import androidx.compose.runtime.LaunchedEffect
 import androidx.fragment.app.viewModels
-import androidx.hilt.navigation.compose.hiltViewModel
+//import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -31,16 +31,16 @@ class Recipes_Fragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.recipes_card, container, false)
 
-        viewModel.recipeState.observe(viewLifecycleOwner, Observer { recipeState ->
-            // Update UI based on the observed recipeState
+//        viewModel.recipeState.observe(viewLifecycleOwner, { recipeState ->
+////             Update UI based on the observed recipeState
 //            when {
-//                recipeState.status == RecipeState.Status.LOADING->
+////                recipeState.status == RecipeState.Status.LOADING->
 //            }
-        })
+//        })
 
 //        val adapter = RecipesAdapter(recipes)
-        val recipesRecyclerView = view?.findViewById<RecyclerView>(R.id.rvRecipes)
-        recipesRecyclerView?.layoutManager = LinearLayoutManager(context)
+//        val recipesRecyclerView = view?.findViewById<RecyclerView>(R.id.rvRecipes)
+//        recipesRecyclerView?.layoutManager = LinearLayoutManager(context)
 //        recipesRecyclerView?.adapter = adapter
 
 //        return adapter.onCreateViewHolder(container!!, 10)

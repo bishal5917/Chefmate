@@ -5,4 +5,5 @@ data class QueryRequestModel(
     val offset: String = "0",
     val diet: String? = null,
     val type: String? = null,
+    val addRecipeInformation: Boolean? = null,
 )

@@ -13,6 +13,9 @@ object GetQuery {
         if (queryRequestModel.type != null) {
             queryMap["type"] = queryRequestModel.type
         }
+        if (queryRequestModel.addRecipeInformation != null) {
+            queryMap["addRecipeInformation"] = queryRequestModel.addRecipeInformation
+        }
         return queryMap;
     }
 }
