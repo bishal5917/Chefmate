@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.recipesapp.features.data.models.recipes.RecipeResponseModel
 import com.example.recipesapp.features.domain.usecases.GetRecipeUsecase
 import com.example.recipesapp.utils.Network.isNetworkAvailable
 import com.example.recipesapp.utils.Resource
@@ -21,7 +22,7 @@ import javax.inject.Inject
 class RecipeViewModel @Inject constructor(private val getRecipeUsecase: GetRecipeUsecase) :
     ViewModel() {
 
-    private val _recipeState = MutableLiveData<RecipeState>(RecipeState(RecipeState.Status.IDLE))
+    private val _recipeState = MutableLiveData(RecipeState.idle)
     val recipeState: LiveData<RecipeState> = _recipeState
 
     fun onEvent(event: RecipeEvent) {
@@ -32,9 +33,9 @@ class RecipeViewModel @Inject constructor(private val getRecipeUsecase: GetRecip
         }
     }
 
-    init {
-        getRecipes(QueryRequestModel())
-    }
+//    init {
+//        getRecipes(QueryRequestModel())
+//    }
 
     private fun getRecipes(queryRequestModel: QueryRequestModel) {
         getRecipeUsecase.call(queryRequestModel).onEach { result ->
@@ -42,14 +43,14 @@ class RecipeViewModel @Inject constructor(private val getRecipeUsecase: GetRecip
                 is Resource.Loading -> {
                     _recipeState.postValue(
                         _recipeState.value?.copy(
-                            status = RecipeState.Status.LOADING, message = "Getting Recipes..."
+                            status = RecipeState.RecipeStatus.LOADING, message = "Getting Recipes..."
                         )
                     )
                 }
                 is Resource.Success -> {
                     _recipeState.postValue(
                         _recipeState.value?.copy(
-                            status = RecipeState.Status.LOADING, message = "Getting Recipes...",
+                            status = RecipeState.RecipeStatus.SUCCESS, message = "Recipes fetched...",
                             recipes = result.data,
                         )
                     )
@@ -58,7 +59,7 @@ class RecipeViewModel @Inject constructor(private val getRecipeUsecase: GetRecip
                 is Resource.Error -> {
                     _recipeState.postValue(
                         _recipeState.value?.copy(
-                            status = RecipeState.Status.LOADING, message = result.message.toString()
+                            status = RecipeState.RecipeStatus.FAILED, message = result.message.toString()
                         )
                     )
                 }

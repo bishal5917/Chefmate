@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/recipesFragment"
-        android:name="com.example.recipesapp.features.presentation.recipes.Recipes_Fragment"
+        android:name="com.example.recipesapp.features.presentation.recipes.RecipesFragment"
         android:label="fragment_recipes_"
-        tools:layout="@layout/fragment_recipes_" >
+        tools:layout="@layout/fragment_recipes" >
         <action
             android:id="@+id/action_recipesFragment_to_loginFragment"
             app:destination="@id/loginFragment" />

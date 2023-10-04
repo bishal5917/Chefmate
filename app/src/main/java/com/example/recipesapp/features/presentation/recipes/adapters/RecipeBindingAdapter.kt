@@ -5,7 +5,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
+import coil.load
 import com.example.recipesapp.R
+import kotlin.math.min
 
 class RecipeBindingAdapter {
     companion object {
@@ -41,6 +43,13 @@ class RecipeBindingAdapter {
                         )
                     }
                 }
+            }
+        }
+
+        @BindingAdapter("loadImageFromUrl")
+        fun loadImageFromUrl(imageView: ImageView, imageUrl: String) {
+            imageView.load(imageUrl) {
+                crossfade(600)
             }
         }
     }
