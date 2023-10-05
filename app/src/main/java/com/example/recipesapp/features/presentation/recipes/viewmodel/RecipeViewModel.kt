@@ -37,14 +37,10 @@ class RecipeViewModel @Inject constructor(private val getRecipeUsecase: GetRecip
                         dietType = event.dietType,
                     )
                 )
-                getRecipes(QueryRequestModel(diet = event.dietType, type = event.mealType))
+                getRecipes(QueryRequestModel(diet = "vegan", type = event.mealType))
             }
         }
     }
-
-//    init {
-//        getRecipes(QueryRequestModel())
-//    }
 
     private fun getRecipes(queryRequestModel: QueryRequestModel) {
         getRecipeUsecase.call(queryRequestModel).onEach { result ->
