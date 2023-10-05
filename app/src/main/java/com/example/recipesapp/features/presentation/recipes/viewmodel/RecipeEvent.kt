@@ -4,4 +4,5 @@ import com.example.recipesapp.utils.models.QueryRequestModel
 
 sealed class RecipeEvent {
     data class GetRecipes(val queryRequestModel: QueryRequestModel) : RecipeEvent()
+    data class SelectRecipesFilter(val mealType: String, val dietType: String) : RecipeEvent()
 }

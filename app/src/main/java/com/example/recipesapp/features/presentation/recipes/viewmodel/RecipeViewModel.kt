@@ -30,6 +30,15 @@ class RecipeViewModel @Inject constructor(private val getRecipeUsecase: GetRecip
             is RecipeEvent.GetRecipes -> {
                 getRecipes(event.queryRequestModel)
             }
+            is RecipeEvent.SelectRecipesFilter -> {
+                _recipeState.postValue(
+                    _recipeState.value?.copy(
+                        mealType = event.mealType,
+                        dietType = event.dietType,
+                    )
+                )
+                getRecipes(QueryRequestModel(diet = event.dietType, type = event.mealType))
+            }
         }
     }
 
@@ -43,14 +52,16 @@ class RecipeViewModel @Inject constructor(private val getRecipeUsecase: GetRecip
                 is Resource.Loading -> {
                     _recipeState.postValue(
                         _recipeState.value?.copy(
-                            status = RecipeState.RecipeStatus.LOADING, message = "Getting Recipes..."
+                            status = RecipeState.RecipeStatus.LOADING,
+                            message = "Getting Recipes..."
                         )
                     )
                 }
                 is Resource.Success -> {
                     _recipeState.postValue(
                         _recipeState.value?.copy(
-                            status = RecipeState.RecipeStatus.SUCCESS, message = "Recipes fetched...",
+                            status = RecipeState.RecipeStatus.SUCCESS,
+                            message = "Recipes fetched...",
                             recipes = result.data,
                         )
                     )
@@ -59,7 +70,8 @@ class RecipeViewModel @Inject constructor(private val getRecipeUsecase: GetRecip
                 is Resource.Error -> {
                     _recipeState.postValue(
                         _recipeState.value?.copy(
-                            status = RecipeState.RecipeStatus.FAILED, message = result.message.toString()
+                            status = RecipeState.RecipeStatus.FAILED,
+                            message = result.message.toString()
                         )
                     )
                 }

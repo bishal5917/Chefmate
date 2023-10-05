@@ -10,8 +10,14 @@ object GetQuery {
         if (queryRequestModel.diet != null) {
             queryMap["diet"] = queryRequestModel.diet
         }
+        if (queryRequestModel.diet == null) {
+            queryMap["diet"] = "gluten free"
+        }
         if (queryRequestModel.type != null) {
             queryMap["type"] = queryRequestModel.type
+        }
+        if (queryRequestModel.type == null) {
+            queryMap["type"] = "main course"
         }
         if (queryRequestModel.addRecipeInformation != null) {
             queryMap["addRecipeInformation"] = queryRequestModel.addRecipeInformation
