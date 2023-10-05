@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Visibility
@@ -18,6 +19,7 @@ import com.example.recipesapp.features.presentation.recipes.viewmodel.RecipeStat
 import com.example.recipesapp.features.presentation.recipes.viewmodel.RecipeViewModel
 import com.example.recipesapp.utils.CustomToast
 import com.example.recipesapp.utils.models.QueryRequestModel
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -34,6 +36,13 @@ class RecipesFragment : Fragment() {
 
         setupRecyclerView()
         requestApi()
+
+        //set on click listener to open filter bottomsheet
+        val filterBtn = rview.findViewById<FloatingActionButton>(R.id.fabFilter)
+        filterBtn.setOnClickListener {
+            findNavController().navigate(R.id.action_recipesFragment_to_filterRecipeBottomsheet2)
+        }
+
         return rview
     }
 

@@ -11,8 +11,8 @@
         android:label="fragment_recipes_"
         tools:layout="@layout/fragment_recipes" >
         <action
-            android:id="@+id/action_recipesFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            android:id="@+id/action_recipesFragment_to_filterRecipeBottomsheet2"
+            app:destination="@id/filterRecipeBottomsheet2" />
     </fragment>
     <fragment
         android:id="@+id/favouriteRecipesFragment"
@@ -29,4 +29,13 @@
         android:name="com.example.recipesapp.features.presentation.login.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" />
+    <dialog
+        android:id="@+id/filterRecipeBottomsheet2"
+        android:name="com.example.recipesapp.features.presentation.recipes.bottomsheet.FilterRecipeBottomsheet"
+        android:label="fragment_filter_recipe_bottomsheet"
+        tools:layout="@layout/fragment_filter_recipe_bottomsheet" >
+        <action
+            android:id="@+id/action_filterRecipeBottomsheet2_to_recipesFragment"
+            app:destination="@id/recipesFragment" />
+    </dialog>
 </navigation>
