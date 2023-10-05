@@ -6,7 +6,7 @@ import androidx.core.content.ContentProviderCompat.requireContext
 
 class CustomToast {
     companion object {
-        fun showToast(message: String, context: Context) {
+        fun showToast(context: Context, message: String) {
             Toast.makeText(context, message ?: "Message", Toast.LENGTH_SHORT)
                 .show()
         }

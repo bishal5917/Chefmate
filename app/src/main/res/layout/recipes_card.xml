@@ -13,7 +13,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/recipesCardLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:layout_marginBottom="4dp">
 
@@ -141,7 +141,7 @@
                     app:layout_constraintStart_toStartOf="@+id/veganTextView"
                     app:layout_constraintTop_toBottomOf="@+id/recipeDesc"
                     app:srcCompat="@drawable/ic_circle"
-                    app:tint="@color/success" />
+                    app:tint="@color/neutral_400" />
 
                 <TextView
                     android:id="@+id/veganTextView"

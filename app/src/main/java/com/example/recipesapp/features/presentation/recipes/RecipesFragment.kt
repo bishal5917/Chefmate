@@ -16,6 +16,7 @@ import com.example.recipesapp.features.presentation.recipes.adapters.RecipeAdapt
 import com.example.recipesapp.features.presentation.recipes.viewmodel.RecipeEvent
 import com.example.recipesapp.features.presentation.recipes.viewmodel.RecipeState
 import com.example.recipesapp.features.presentation.recipes.viewmodel.RecipeViewModel
+import com.example.recipesapp.utils.CustomToast
 import com.example.recipesapp.utils.models.QueryRequestModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -52,13 +53,10 @@ class RecipesFragment : Fragment() {
             if (response.status == RecipeState.RecipeStatus.SUCCESS) {
                 progressBar.visibility = View.GONE
                 response.recipes?.results.let { recipesAdapter.setData(response.recipes!!) }
-                Toast.makeText(
-                    requireContext(), "Recipes Fetched", Toast.LENGTH_SHORT
-                ).show()
             }
             if (response.status == RecipeState.RecipeStatus.FAILED) {
                 progressBar.visibility = View.GONE
-                Toast.makeText(requireContext(), "${response.message}", Toast.LENGTH_SHORT).show()
+                CustomToast.showToast(context = requireContext(), "${response.message}")
             }
         }
     }

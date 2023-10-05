@@ -42,12 +42,10 @@ class RecipeAdapter : RecyclerView.Adapter<RecipeAdapter.MyViewHolder>() {
     }
 
     fun setData(newData: RecipeResponseModel) {
-        if (newData.results != null) {
             val recipesDiffUtil =
                 RecipesDiffUtil(recipe, newData.results as List<RecipeResponseModel.Recipe>)
             val diffUtilResult = DiffUtil.calculateDiff(recipesDiffUtil)
             recipe = newData.results
             diffUtilResult.dispatchUpdatesTo(this)
-        }
     }
 }
