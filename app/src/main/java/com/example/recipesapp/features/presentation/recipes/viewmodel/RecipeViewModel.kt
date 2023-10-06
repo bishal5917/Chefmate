@@ -10,6 +10,8 @@ import com.example.recipesapp.features.domain.usecases.GetRecipeUsecase
 import com.example.recipesapp.utils.Network.isNetworkAvailable
 import com.example.recipesapp.utils.Resource
 import com.example.recipesapp.utils.models.QueryRequestModel
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -34,22 +36,26 @@ class RecipeViewModel @Inject constructor(private val getRecipeUsecase: GetRecip
                         addRecipeInformation = true,
                     )
                 )
-//                Log.d(
-//                    "Filtersinit",
-//                    "${_recipeState.value?.dietType}-${_recipeState.value?.mealType} "
-//                )
+                Log.d(
+                    "SelChipsInit",
+                    "${_recipeState.value?.mealTypeChipId}-${_recipeState.value?.dietTypeChipId} "
+                )
             }
             is RecipeEvent.SelectRecipesFilter -> {
                 _recipeState.value = _recipeState.value?.copy(
                     mealType = event.mealType,
                     dietType = event.dietType,
+                    dietTypeChipId = if (event.dietTypeChipId != 0) event.dietTypeChipId else _recipeState.value!!.dietTypeChipId,
+                    mealTypeChipId = if (event.mealTypeChipId != 0) event.mealTypeChipId else _recipeState
+                        .value!!.mealTypeChipId,
                 )
-//                getRecipes(
-//                    QueryRequestModel(
-//                        diet = _recipeState.value?.dietType, type = _recipeState.value?.mealType
-//                    )
-//                )
-                Log.d("Filters", "${_recipeState.value?.dietType}-${_recipeState.value?.mealType} ")
+                Log.d(
+                    "SelChips",
+                    "${_recipeState.value?.mealTypeChipId}-${_recipeState.value?.dietTypeChipId} "
+                )
+            }
+            is RecipeEvent.PersistSelectedChips -> {
+                persistSelectedChips(event.mealChipGrId, event.dietChipGrId)
             }
         }
     }
@@ -85,5 +91,14 @@ class RecipeViewModel @Inject constructor(private val getRecipeUsecase: GetRecip
                 }
             }
         }.launchIn(viewModelScope)
+    }
+
+    private fun persistSelectedChips(mealChipGr: ChipGroup, dietChipGr: ChipGroup) {
+        if (_recipeState.value?.mealTypeChipId != 0) {
+            mealChipGr.findViewById<Chip>(_recipeState.value?.mealTypeChipId!!).isChecked = true
+        }
+        if (_recipeState.value?.dietTypeChipId != 0) {
+            dietChipGr.findViewById<Chip>(_recipeState.value?.dietTypeChipId!!).isChecked = true
+        }
     }
 }
