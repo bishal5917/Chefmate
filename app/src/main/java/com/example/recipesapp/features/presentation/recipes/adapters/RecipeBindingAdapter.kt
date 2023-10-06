@@ -64,9 +64,12 @@ class RecipeBindingAdapter {
         }
 
         @BindingAdapter("loadImageFromUrl")
+        @JvmStatic
         fun loadImageFromUrl(imageView: ImageView, imageUrl: String) {
             imageView.load(imageUrl) {
                 crossfade(600)
+                placeholder(R.drawable.placeholder)
+                error(R.drawable.error)
             }
         }
     }
