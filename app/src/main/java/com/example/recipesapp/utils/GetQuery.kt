@@ -10,6 +10,9 @@ object GetQuery {
         if (queryRequestModel.diet != null) {
             queryMap["diet"] = queryRequestModel.diet
         }
+        if (queryRequestModel.query != null && queryRequestModel.query.isNotEmpty()) {
+            queryMap["query"] = queryRequestModel.query
+        }
         if (queryRequestModel.diet == null) {
             queryMap["diet"] = "gluten free"
         }

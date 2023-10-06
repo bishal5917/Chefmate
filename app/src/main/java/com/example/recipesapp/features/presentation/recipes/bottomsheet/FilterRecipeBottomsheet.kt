@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import androidx.compose.ui.text.toLowerCase
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -54,6 +55,7 @@ class FilterRecipeBottomsheet : BottomSheetDialogFragment() {
         var mealTypeChipId = 0
         var dietTypeChipId = 0
         val applyBtn = bottomSheetView.findViewById<Button>(R.id.btnApply)
+        val etSearchRecipe = bottomSheetView.findViewById<EditText>(R.id.etSearchRecipe)
         mealTypeChip.setOnCheckedChangeListener { group, selectedChipId ->
             val chip = mealTypeChip.findViewById<Chip>(selectedChipId)
             mealType = chip.text.toString().toLowerCase(Locale.ROOT)
@@ -70,7 +72,8 @@ class FilterRecipeBottomsheet : BottomSheetDialogFragment() {
                     dietType = dietType,
                     mealType = mealType,
                     mealTypeChipId = mealTypeChipId,
-                    dietTypeChipId = dietTypeChipId
+                    dietTypeChipId = dietTypeChipId,
+                    query = etSearchRecipe.text.toString(),
                 )
             )
             findNavController().navigate(R.id.action_filterRecipeBottomsheet2_to_recipesFragment)

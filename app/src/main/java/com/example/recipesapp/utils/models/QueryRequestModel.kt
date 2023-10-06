@@ -6,4 +6,5 @@ data class QueryRequestModel(
     val diet: String? = null,
     val type: String? = null,
     val addRecipeInformation: Boolean? = null,
+    val query: String? = null,
 )

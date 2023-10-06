@@ -34,6 +34,7 @@ class RecipeViewModel @Inject constructor(private val getRecipeUsecase: GetRecip
                     QueryRequestModel(
                         diet = _recipeState.value?.dietType, type = _recipeState.value?.mealType,
                         addRecipeInformation = true,
+                        query = _recipeState.value?.query
                     )
                 )
                 Log.d(
@@ -48,6 +49,7 @@ class RecipeViewModel @Inject constructor(private val getRecipeUsecase: GetRecip
                     dietTypeChipId = if (event.dietTypeChipId != 0) event.dietTypeChipId else _recipeState.value!!.dietTypeChipId,
                     mealTypeChipId = if (event.mealTypeChipId != 0) event.mealTypeChipId else _recipeState
                         .value!!.mealTypeChipId,
+                    query = event.query,
                 )
                 Log.d(
                     "SelChips",
@@ -56,6 +58,9 @@ class RecipeViewModel @Inject constructor(private val getRecipeUsecase: GetRecip
             }
             is RecipeEvent.PersistSelectedChips -> {
                 persistSelectedChips(event.mealChipGrId, event.dietChipGrId)
+            }
+            is RecipeEvent.Reset -> {
+                reset()
             }
         }
     }
@@ -79,6 +84,7 @@ class RecipeViewModel @Inject constructor(private val getRecipeUsecase: GetRecip
                             recipes = result.data,
                         )
                     )
+                    reset()
                     Log.d("RecipeViewModel", "API Response, ${result.data}")
                 }
                 is Resource.Error -> {
@@ -100,5 +106,9 @@ class RecipeViewModel @Inject constructor(private val getRecipeUsecase: GetRecip
         if (_recipeState.value?.dietTypeChipId != 0) {
             dietChipGr.findViewById<Chip>(_recipeState.value?.dietTypeChipId!!).isChecked = true
         }
+    }
+
+    private fun reset() {
+        _recipeState.value = _recipeState.value?.copy(query = "")
     }
 }

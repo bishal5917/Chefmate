@@ -7,6 +7,7 @@ data class RecipeState(
     val message: String? = null,
     val mealType: String? = null,
     val dietType: String? = null,
+    val query: String? = null,
     val mealTypeChipId: Int = 0,
     val dietTypeChipId: Int = 0,
     val recipes: RecipeResponseModel? = null

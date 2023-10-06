@@ -54,4 +54,6 @@
     <string name="primal">Primal</string>
     <string name="vegetarian">Vegetarian</string>
     <string name="apply">Apply</string>
+    <string name="search_recipe">Search Recipe</string>
+    <string name="search_by_name">Search by name</string>
 </resources>
