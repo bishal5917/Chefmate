@@ -84,7 +84,6 @@ class RecipeViewModel @Inject constructor(private val getRecipeUsecase: GetRecip
                             recipes = result.data,
                         )
                     )
-                    reset()
                     Log.d("RecipeViewModel", "API Response, ${result.data}")
                 }
                 is Resource.Error -> {

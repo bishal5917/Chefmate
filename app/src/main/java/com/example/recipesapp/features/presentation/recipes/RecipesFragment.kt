@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.transition.Visibility
 import com.example.recipesapp.R
 import com.example.recipesapp.features.presentation.recipes.adapters.RecipeAdapter
@@ -38,14 +39,10 @@ class RecipesFragment : Fragment() {
         // Inflate the layout for this fragment
         rview = inflater.inflate(R.layout.fragment_recipes, container, false)
 
-        setupRecyclerView()
         requestApi()
-
-        //set on click listener to open filter bottomsheet
-        val filterBtn = rview.findViewById<FloatingActionButton>(R.id.fabFilter)
-        filterBtn.setOnClickListener {
-            findNavController().navigate(R.id.action_recipesFragment_to_filterRecipeBottomsheet2)
-        }
+        setupRecyclerView()
+        swipeToRefresh()
+        openFilterBottomSheet()
 
         return rview
     }
@@ -54,6 +51,22 @@ class RecipesFragment : Fragment() {
         val recyclerView = rview.findViewById<RecyclerView>(R.id.rvRecipes)
         recyclerView.adapter = recipesAdapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
+    }
+
+    private fun swipeToRefresh() {
+        val swipeToRefresh = rview.findViewById<SwipeRefreshLayout>(R.id.swipeToRefresh)
+        swipeToRefresh.setOnRefreshListener {
+            recipeViewModel.onEvent(RecipeEvent.Reset)
+            recipeViewModel.onEvent(RecipeEvent.GetRecipes(QueryRequestModel()))
+            swipeToRefresh.isRefreshing = false
+        }
+    }
+
+    private fun openFilterBottomSheet() {
+        val filterBtn = rview.findViewById<FloatingActionButton>(R.id.fabFilter)
+        filterBtn.setOnClickListener {
+            findNavController().navigate(R.id.action_recipesFragment_to_filterRecipeBottomsheet2)
+        }
     }
 
     private fun requestApi() {
