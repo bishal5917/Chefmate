@@ -1,16 +1,33 @@
 package com.example.recipesapp.features.presentation.recipes.adapters
 
+import android.app.DirectAction
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
+import androidx.navigation.findNavController
 import coil.load
 import com.example.recipesapp.R
-import kotlin.math.min
 
 class RecipeBindingAdapter {
     companion object {
+        @BindingAdapter("onRecipeClickedListener")
+        @JvmStatic
+        fun onRecipeClickedListener(recipeCard: ConstraintLayout, id: Int) {
+            recipeCard.setOnClickListener {
+                try {
+//                    val action = RecipesF
+                    recipeCard.findNavController()
+                        .navigate(R.id.action_recipesFragment_to_recipeDetailActivity)
+                } catch (ex: Exception) {
+                    Log.d("setOnClickListener", "${ex.message}")
+                }
+            }
+        }
+
         @BindingAdapter("setNumberOfLikes")
         @JvmStatic
         fun setNumberOfLikes(textView: TextView, likes: Int) {

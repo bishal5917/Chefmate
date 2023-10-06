@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_recipesFragment_to_filterRecipeBottomsheet2"
             app:destination="@id/filterRecipeBottomsheet2" />
+        <action
+            android:id="@+id/action_recipesFragment_to_recipeDetailActivity"
+            app:destination="@id/recipeDetailActivity" />
     </fragment>
     <fragment
         android:id="@+id/favouriteRecipesFragment"
@@ -38,4 +41,13 @@
             android:id="@+id/action_filterRecipeBottomsheet2_to_recipesFragment"
             app:destination="@id/recipesFragment" />
     </dialog>
+    <activity
+        android:id="@+id/recipeDetailActivity"
+        android:name="com.example.recipesapp.features.presentation.recipe_detail.RecipeDetailActivity"
+        android:label="activity_recipe_detail"
+        tools:layout="@layout/activity_recipe_detail" >
+        <argument
+            android:name="id"
+            app:argType="integer" />
+    </activity>
 </navigation>

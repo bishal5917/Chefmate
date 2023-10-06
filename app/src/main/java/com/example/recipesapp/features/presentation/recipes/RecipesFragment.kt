@@ -41,7 +41,7 @@ class RecipesFragment : Fragment() {
 
         requestApi()
         setupRecyclerView()
-        swipeToRefresh()
+        pullToRefresh()
         openFilterBottomSheet()
 
         return rview
@@ -53,7 +53,7 @@ class RecipesFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
     }
 
-    private fun swipeToRefresh() {
+    private fun pullToRefresh() {
         val swipeToRefresh = rview.findViewById<SwipeRefreshLayout>(R.id.swipeToRefresh)
         swipeToRefresh.setOnRefreshListener {
             recipeViewModel.onEvent(RecipeEvent.Reset)

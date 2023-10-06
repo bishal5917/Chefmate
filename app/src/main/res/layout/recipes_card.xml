@@ -12,6 +12,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/recipesCardLayout"
+        onRecipeClickedListener="@{result.id}"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
@@ -98,10 +99,10 @@
 
                 <TextView
                     android:id="@+id/favTextView"
+                    setNumberOfLikes="@{result.aggregateLikes}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    setNumberOfLikes="@{result.aggregateLikes}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@+id/favImageView"
                     app:layout_constraintStart_toStartOf="@+id/favImageView"
@@ -132,11 +133,11 @@
 
                 <ImageView
                     android:id="@+id/veganImageVIew"
+                    applyVeganColor="@{result.vegan}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:contentDescription="@string/veganimage"
-                    applyVeganColor="@{result.vegan}"
                     app:layout_constraintEnd_toEndOf="@+id/veganTextView"
                     app:layout_constraintStart_toStartOf="@+id/veganTextView"
                     app:layout_constraintTop_toBottomOf="@+id/recipeDesc"
@@ -145,12 +146,12 @@
 
                 <TextView
                     android:id="@+id/veganTextView"
+                    applyVeganColor="@{result.vegan}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
                     android:layout_marginBottom="8dp"
                     android:text="@string/vegan"
-                    applyVeganColor="@{result.vegan}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/timeTextView"
                     app:layout_constraintTop_toBottomOf="@+id/veganImageVIew" />
