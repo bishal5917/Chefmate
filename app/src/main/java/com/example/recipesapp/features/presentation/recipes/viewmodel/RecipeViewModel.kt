@@ -28,16 +28,28 @@ class RecipeViewModel @Inject constructor(private val getRecipeUsecase: GetRecip
     fun onEvent(event: RecipeEvent) {
         when (event) {
             is RecipeEvent.GetRecipes -> {
-                getRecipes(event.queryRequestModel)
-            }
-            is RecipeEvent.SelectRecipesFilter -> {
-                _recipeState.postValue(
-                    _recipeState.value?.copy(
-                        mealType = event.mealType,
-                        dietType = event.dietType,
+                getRecipes(
+                    QueryRequestModel(
+                        diet = _recipeState.value?.dietType, type = _recipeState.value?.mealType,
+                        addRecipeInformation = true,
                     )
                 )
-                getRecipes(QueryRequestModel(diet = "vegan", type = event.mealType))
+//                Log.d(
+//                    "Filtersinit",
+//                    "${_recipeState.value?.dietType}-${_recipeState.value?.mealType} "
+//                )
+            }
+            is RecipeEvent.SelectRecipesFilter -> {
+                _recipeState.value = _recipeState.value?.copy(
+                    mealType = event.mealType,
+                    dietType = event.dietType,
+                )
+//                getRecipes(
+//                    QueryRequestModel(
+//                        diet = _recipeState.value?.dietType, type = _recipeState.value?.mealType
+//                    )
+//                )
+                Log.d("Filters", "${_recipeState.value?.dietType}-${_recipeState.value?.mealType} ")
             }
         }
     }

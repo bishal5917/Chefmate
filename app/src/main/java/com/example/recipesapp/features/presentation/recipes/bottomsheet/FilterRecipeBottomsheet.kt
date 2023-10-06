@@ -14,11 +14,14 @@ import com.example.recipesapp.features.presentation.recipes.viewmodel.RecipeView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class FilterRecipeBottomsheet : BottomSheetDialogFragment() {
     private lateinit var bottomSheetView: View
-    private val recipeViewModel: RecipeViewModel by viewModels()
+
+    @Inject
+    lateinit var recipeViewModel: RecipeViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,13 +39,13 @@ class FilterRecipeBottomsheet : BottomSheetDialogFragment() {
     private fun applyFilter() {
         val applyBtn = bottomSheetView.findViewById<Button>(R.id.btnApply)
         applyBtn.setOnClickListener {
-            findNavController().navigate(R.id.action_filterRecipeBottomsheet2_to_recipesFragment)
             recipeViewModel.onEvent(
                 RecipeEvent.SelectRecipesFilter(
                     dietType = "vegan", mealType
                     = "vegan"
                 )
             )
+            findNavController().navigate(R.id.action_filterRecipeBottomsheet2_to_recipesFragment)
         }
     }
 }

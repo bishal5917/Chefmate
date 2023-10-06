@@ -21,11 +21,15 @@ import com.example.recipesapp.utils.CustomToast
 import com.example.recipesapp.utils.models.QueryRequestModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class RecipesFragment : Fragment() {
     private val recipesAdapter by lazy { RecipeAdapter() }
-    private val viewModel: RecipeViewModel by viewModels()
+
+    @Inject
+    lateinit var recipeViewModel: RecipeViewModel
+
     private lateinit var rview: View
 
     override fun onCreateView(
@@ -54,8 +58,8 @@ class RecipesFragment : Fragment() {
 
     private fun requestApi() {
         val progressBar = rview.findViewById<ProgressBar>(R.id.loadingProgress)
-        viewModel.onEvent(RecipeEvent.GetRecipes(QueryRequestModel(addRecipeInformation = true)))
-        viewModel.recipeState.observe(viewLifecycleOwner) { response ->
+        recipeViewModel.onEvent(RecipeEvent.GetRecipes(QueryRequestModel()))
+        recipeViewModel.recipeState.observe(viewLifecycleOwner) { response ->
             if (response.status == RecipeState.RecipeStatus.LOADING) {
                 progressBar.visibility = View.VISIBLE
             }

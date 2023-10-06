@@ -6,6 +6,7 @@ import com.example.recipesapp.features.data.datasource.UserRemoteDatasourceImpl
 import com.example.recipesapp.features.data.repositories.UserRepositoryImpl
 import com.example.recipesapp.features.domain.repositories.UserRepository
 import com.example.recipesapp.features.domain.usecases.GetRecipeUsecase
+import com.example.recipesapp.features.presentation.recipes.viewmodel.RecipeViewModel
 import com.example.recipesapp.services.network.ApiService
 import dagger.Module
 import dagger.Provides
@@ -21,7 +22,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
     @Provides
-    fun provideDataSource(apiService : ApiService): UserRemoteDatasource {
+    fun provideDataSource(apiService: ApiService): UserRemoteDatasource {
         return UserRemoteDatasourceImpl(apiService)
     }
 
@@ -34,5 +35,12 @@ object AppModule {
     @Provides
     fun provideRecipesUsecase(repo: UserRepository): GetRecipeUsecase {
         return GetRecipeUsecase(repo)
+    }
+
+    //providing viewmodel
+    @Provides
+    @Singleton
+    fun providesRecipeViewModel(getRecipeUsecase: GetRecipeUsecase): RecipeViewModel {
+        return RecipeViewModel(getRecipeUsecase)
     }
 }
