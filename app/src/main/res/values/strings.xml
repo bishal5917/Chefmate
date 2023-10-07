@@ -56,4 +56,7 @@
     <string name="apply">Apply</string>
     <string name="search_recipe">Search Recipe</string>
     <string name="search_by_name">Search by name</string>
+    <string name="gradient_recipe_image">Gradient Recipe Image</string>
+    <string name="dairy_free">Dairy Free</string>
+    <string name="healthy">Healthy</string>
 </resources>
