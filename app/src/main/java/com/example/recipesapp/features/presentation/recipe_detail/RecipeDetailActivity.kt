@@ -28,6 +28,11 @@ class RecipeDetailActivity : AppCompatActivity() {
         toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.white))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         setTabs()
+        callRecipeDetailsApi()
+    }
+
+    private fun callRecipeDetailsApi() {
+        TODO("Not yet implemented")
     }
 
     private fun setTabs() {

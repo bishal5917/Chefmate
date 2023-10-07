@@ -1,6 +1,8 @@
 package com.example.recipesapp.features.data.datasource
 
 import com.example.recipesapp.core.configs.ApiConfig
+import com.example.recipesapp.features.data.models.recipe_detail.RecipeDetailResponseModel
+import com.example.recipesapp.features.data.models.recipe_detail.RecipeRequestModel
 import com.example.recipesapp.features.data.models.recipes.RecipeResponseModel
 import com.example.recipesapp.services.network.ApiHandler
 import com.example.recipesapp.services.network.ApiService
@@ -13,15 +15,20 @@ import javax.inject.Inject
 
 interface UserRemoteDatasource {
     suspend fun getRecipes(queryRequestModel: QueryRequestModel): Response<RecipeResponseModel>
+    suspend fun getRecipeDetail(recipeRequestModel: RecipeRequestModel): Response<RecipeDetailResponseModel>
 }
 
 class UserRemoteDatasourceImpl @Inject constructor(private val apiService: ApiService) :
     UserRemoteDatasource {
     override suspend fun getRecipes(queryRequestModel: QueryRequestModel): Response<RecipeResponseModel> {
         return apiService.getRecipes(
-//            endPoint = "/recipes/complexSearch",
             queryMap = GetQuery.getQueryMap(queryRequestModel)
         )
+    }
 
+    override suspend fun getRecipeDetail(recipeRequestModel: RecipeRequestModel): Response<RecipeDetailResponseModel> {
+        return apiService.getRecipeDetail(
+            recipeId = recipeRequestModel.recipeId
+        )
     }
 }
