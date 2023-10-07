@@ -11,6 +11,7 @@ import androidx.databinding.BindingAdapter
 import androidx.navigation.findNavController
 import coil.load
 import com.example.recipesapp.R
+import com.example.recipesapp.features.presentation.recipes.RecipesFragmentDirections
 
 class RecipeBindingAdapter {
     companion object {
@@ -19,9 +20,10 @@ class RecipeBindingAdapter {
         fun onRecipeClickedListener(recipeCard: ConstraintLayout, id: Int) {
             recipeCard.setOnClickListener {
                 try {
-//                    val action = RecipesF
+                    val action = RecipesFragmentDirections
+                        .actionRecipesFragmentToRecipeDetailActivity(id)
                     recipeCard.findNavController()
-                        .navigate(R.id.action_recipesFragment_to_recipeDetailActivity)
+                        .navigate(action)
                 } catch (ex: Exception) {
                     Log.d("setOnClickListener", "${ex.message}")
                 }

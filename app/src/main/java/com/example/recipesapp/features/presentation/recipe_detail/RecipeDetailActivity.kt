@@ -11,14 +11,29 @@ import androidx.navigation.NavArgs
 import androidx.navigation.navArgs
 import androidx.viewpager.widget.ViewPager
 import com.example.recipesapp.R
+import com.example.recipesapp.features.data.models.recipe_detail.RecipeRequestModel
 import com.example.recipesapp.features.presentation.recipe_detail.adapters.PagerAdapter
 import com.example.recipesapp.features.presentation.recipe_detail.fragments.IngredientsFragment
 import com.example.recipesapp.features.presentation.recipe_detail.fragments.InstructionsFragment
 import com.example.recipesapp.features.presentation.recipe_detail.fragments.OverviewFragment
+import com.example.recipesapp.features.presentation.recipe_detail.viewmodel.RecipeDetailEvent
+import com.example.recipesapp.features.presentation.recipe_detail.viewmodel.RecipeDetailViewmodel
+import com.example.recipesapp.features.presentation.recipes.viewmodel.RecipeEvent
+import com.example.recipesapp.features.presentation.recipes.viewmodel.RecipeViewModel
+import com.example.recipesapp.utils.models.QueryRequestModel
 import com.google.android.material.tabs.TabLayout
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class RecipeDetailActivity : AppCompatActivity() {
-    //    private val args by navArgs<RecipeDetailActivityArgs>()
+
+    @Inject
+    lateinit var recipeDetailViewModel: RecipeDetailViewmodel
+
+    //getting argument (id)
+    private val args by navArgs<RecipeDetailActivityArgs>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recipe_detail)
@@ -28,11 +43,16 @@ class RecipeDetailActivity : AppCompatActivity() {
         toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.white))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         setTabs()
-        callRecipeDetailsApi()
+        requestApi()
     }
 
-    private fun callRecipeDetailsApi() {
-        TODO("Not yet implemented")
+    private fun requestApi() {
+        recipeDetailViewModel.onEvent(
+            RecipeDetailEvent.GetRecipeDetail(
+                RecipeRequestModel
+                    (recipeId = args.id)
+            )
+        )
     }
 
     private fun setTabs() {
@@ -60,5 +80,4 @@ class RecipeDetailActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
-
 }
