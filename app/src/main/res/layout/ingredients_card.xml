@@ -49,6 +49,7 @@
                 <ImageView
                     android:id="@+id/ivRecipeIngredient"
                     android:layout_width="100dp"
+                    setIngredientImage="@{result.image}"
                     android:layout_height="100dp"
                     android:layout_marginTop="12dp"
                     android:layout_marginBottom="12dp"
@@ -56,7 +57,7 @@
                     app:layout_constraintEnd_toEndOf="@+id/viewWhiteBg"
                     app:layout_constraintStart_toStartOf="@+id/viewWhiteBg"
                     app:layout_constraintTop_toTopOf="@+id/viewWhiteBg"
-                    tools:srcCompat="@tools:sample/avatars" />
+                    android:contentDescription="@string/ingredient_image" />
 
                 <TextView
                     android:id="@+id/tvIngredientName"

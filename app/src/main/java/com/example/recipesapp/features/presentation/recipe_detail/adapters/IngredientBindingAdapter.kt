@@ -5,13 +5,15 @@ import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import coil.load
 import com.example.recipesapp.R
+import com.example.recipesapp.core.configs.ApiConfig
+import java.util.*
 
 class IngredientBindingAdapter {
     companion object {
         @BindingAdapter("setIngredientTextViewContent")
         @JvmStatic
         fun setIngredientTextViewContent(textView: TextView, title: String?) {
-            textView.text = title
+            textView.text = title?.replaceFirstChar { it.uppercase() }
         }
 
         @BindingAdapter("setIngredientAmount")
@@ -20,10 +22,11 @@ class IngredientBindingAdapter {
             textView.text = amount.toString()
         }
 
-        @BindingAdapter("loadIngredientImage")
+        @BindingAdapter("setIngredientImage")
         @JvmStatic
-        fun loadIngredientImage(imageView: ImageView, imageUrl: String?) {
-            imageView.load(imageUrl) {
+        fun setIngredientImage(imageView: ImageView, imageUrl: String?) {
+            val ingredientImage = ApiConfig.ingredientImgBaseUrl + imageUrl
+            imageView.load(ingredientImage) {
                 crossfade(600)
                 placeholder(R.drawable.placeholder)
                 error(R.drawable.error)

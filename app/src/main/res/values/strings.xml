@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">RecipesApp</string>
+    <string name="app_name">ChefMate</string>
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
@@ -59,4 +59,5 @@
     <string name="gradient_recipe_image">Gradient Recipe Image</string>
     <string name="dairy_free">Dairy Free</string>
     <string name="healthy">Healthy</string>
+    <string name="ingredient_image">Ingredient Image</string>
 </resources>
