@@ -71,13 +71,16 @@ class RecipesFragment : Fragment() {
 
     private fun requestApi() {
         val progressBar = rview.findViewById<ProgressBar>(R.id.loadingProgress)
+        val recView = rview.findViewById<RecyclerView>(R.id.rvRecipes)
         recipeViewModel.onEvent(RecipeEvent.GetRecipes(QueryRequestModel()))
         recipeViewModel.recipeState.observe(viewLifecycleOwner) { response ->
             if (response.status == RecipeState.RecipeStatus.LOADING) {
                 progressBar.visibility = View.VISIBLE
+                recView.visibility = View.INVISIBLE
             }
             if (response.status == RecipeState.RecipeStatus.SUCCESS) {
                 progressBar.visibility = View.GONE
+                recView.visibility = View.VISIBLE
                 response.recipes?.results.let { recipesAdapter.setData(response.recipes!!) }
             }
             if (response.status == RecipeState.RecipeStatus.FAILED) {

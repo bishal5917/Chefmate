@@ -6,8 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebViewClient
-import android.widget.ProgressBar
-import com.example.recipesapp.R
 import com.example.recipesapp.databinding.FragmentInstructionsBinding
 import com.example.recipesapp.features.presentation.recipe_detail.viewmodel.RecipeDetailState
 import com.example.recipesapp.features.presentation.recipe_detail.viewmodel.RecipeDetailViewmodel

@@ -11,9 +11,4 @@
         android:icon="@drawable/ic_baseline_star"
         android:title="@string/favourite" />
 
-    <item
-        android:id="@+id/foodJokeFragment"
-        android:icon="@drawable/ic_emoji_emotions"
-        android:title="@string/joke" />
-
 </menu>

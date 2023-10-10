@@ -1,13 +1,18 @@
 package com.example.recipesapp.di
 
+import android.content.Context
+import androidx.room.Room
 import com.example.recipesapp.core.configs.ApiConfig
+import com.example.recipesapp.database.RecipesDatabase
 import com.example.recipesapp.services.network.ApiService
+import com.example.recipesapp.utils.Constants.DATABASE_NAME
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
 //import okhttp3.logging.HttpLoggingInterceptor
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -42,4 +47,19 @@ class NetworkModule {
     @Provides
     @Singleton
     fun providesGson(): Gson = GsonBuilder().create()
+
+    //local database
+    @Singleton
+    @Provides
+    fun provideDatabase(
+        @ApplicationContext context: Context
+    ) = Room.databaseBuilder(
+        context,
+        RecipesDatabase::class.java,
+        DATABASE_NAME
+    ).build()
+
+    @Singleton
+    @Provides
+    fun provideDao(database: RecipesDatabase) = database.recipesDao()
 }
