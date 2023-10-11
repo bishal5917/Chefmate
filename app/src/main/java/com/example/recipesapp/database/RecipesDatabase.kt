@@ -3,11 +3,11 @@ package com.example.recipesapp.database
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.example.recipesapp.utils.entities.RecipesEntity
+import com.example.recipesapp.utils.entities.FavouritesEntity
 
 @Database(
-    entities = [RecipesEntity::class],
-    version = 1,
+    entities = [FavouritesEntity::class],
+    version = 2,
     exportSchema = false
 )
 @TypeConverters(RecipesTypeConverter::class)
