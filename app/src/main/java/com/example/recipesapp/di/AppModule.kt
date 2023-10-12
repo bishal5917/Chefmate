@@ -7,8 +7,10 @@ import com.example.recipesapp.features.data.datasource.UserRemoteDatasource
 import com.example.recipesapp.features.data.datasource.UserRemoteDatasourceImpl
 import com.example.recipesapp.features.data.repositories.UserRepositoryImpl
 import com.example.recipesapp.features.domain.repositories.UserRepository
+import com.example.recipesapp.features.domain.usecases.GetFoodJokeUsecase
 import com.example.recipesapp.features.domain.usecases.GetRecipeDetailUsecase
 import com.example.recipesapp.features.domain.usecases.GetRecipeUsecase
+import com.example.recipesapp.features.presentation.food_joke.viewmodel.JokeViewModel
 import com.example.recipesapp.features.presentation.recipe_detail.viewmodel.RecipeDetailViewmodel
 import com.example.recipesapp.features.presentation.recipes.viewmodel.RecipeViewModel
 import com.example.recipesapp.services.network.ApiService
@@ -50,6 +52,11 @@ object AppModule {
         return GetRecipeDetailUsecase(repo)
     }
 
+    @Provides
+    fun provideFoodJokeUsecase(repo: UserRepository): GetFoodJokeUsecase {
+        return GetFoodJokeUsecase(repo)
+    }
+
     //providing viewmodel
     @Provides
     @Singleton
@@ -62,5 +69,12 @@ object AppModule {
     fun providesRecipeDetailViewModel(getRecipeDetailUsecase: GetRecipeDetailUsecase):
             RecipeDetailViewmodel {
         return RecipeDetailViewmodel(getRecipeDetailUsecase)
+    }
+
+    @Provides
+    @Singleton
+    fun providesFoodJokeViewModel(getFoodJokeUsecase: GetFoodJokeUsecase):
+            JokeViewModel {
+        return JokeViewModel(getFoodJokeUsecase)
     }
 }
