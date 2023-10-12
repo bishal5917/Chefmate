@@ -2,6 +2,7 @@ package com.example.recipesapp.features.data.repositories
 
 import com.example.recipesapp.features.data.datasource.LocalDatasource
 import com.example.recipesapp.features.data.datasource.UserRemoteDatasource
+import com.example.recipesapp.features.data.models.food_joke.FoodJokeResponseModel
 import com.example.recipesapp.features.data.models.recipe_detail.RecipeDetailResponseModel
 import com.example.recipesapp.features.data.models.recipe_detail.RecipeRequestModel
 import com.example.recipesapp.features.data.models.recipes.RecipeResponseModel
@@ -24,6 +25,10 @@ class UserRepositoryImpl(
 
     override suspend fun getRecipeDetail(recipeRequestModel: RecipeRequestModel): Resource<RecipeDetailResponseModel> {
         return processRecipeDetailResponse(userRemoteDatasource.getRecipeDetail(recipeRequestModel))
+    }
+
+    override suspend fun getJoke(): Resource<FoodJokeResponseModel> {
+        return processJokeResponse(userRemoteDatasource.getJoke())
     }
 
     override fun getFavouriteRecipes(): Flow<List<FavouritesEntity>> {
@@ -54,6 +59,16 @@ class UserRepositoryImpl(
 
     private fun processResponse(response: Response<RecipeResponseModel>):
             Resource<RecipeResponseModel> {
+        if (response.isSuccessful) {
+            response.body()?.let { result ->
+                return Resource.Success(result)
+            }
+        }
+        return Resource.Error(message = "${response.errorBody()?.string()}")
+    }
+
+    private fun processJokeResponse(response: Response<FoodJokeResponseModel>):
+            Resource<FoodJokeResponseModel> {
         if (response.isSuccessful) {
             response.body()?.let { result ->
                 return Resource.Success(result)

@@ -1,5 +1,6 @@
 package com.example.recipesapp.features.domain.repositories
 
+import com.example.recipesapp.features.data.models.food_joke.FoodJokeResponseModel
 import com.example.recipesapp.features.data.models.recipe_detail.RecipeDetailResponseModel
 import com.example.recipesapp.features.data.models.recipe_detail.RecipeRequestModel
 import com.example.recipesapp.features.data.models.recipes.RecipeResponseModel
@@ -12,6 +13,9 @@ interface UserRepository {
     suspend fun getRecipes(queryRequestModel: QueryRequestModel): Resource<RecipeResponseModel>
     suspend fun getRecipeDetail(recipeRequestModel: RecipeRequestModel):
             Resource<RecipeDetailResponseModel>
+
+    suspend fun getJoke(): Resource<FoodJokeResponseModel>
+
     fun getFavouriteRecipes(): Flow<List<FavouritesEntity>>
     suspend fun insertFavouriteRecipe(favouritesEntity: FavouritesEntity)
     suspend fun deleteFavouriteRecipe(favouritesEntity: FavouritesEntity)

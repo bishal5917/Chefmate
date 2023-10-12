@@ -16,10 +16,36 @@ class RecipesDiffUtil(
     }
 
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return oldList[oldItemPosition] === newList[newItemPosition]
+        return oldList[oldItemPosition].id == newList[newItemPosition].id
     }
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return oldList[oldItemPosition] == newList[newItemPosition]
+        return when {
+            oldList[oldItemPosition].id != newList[newItemPosition].id -> {
+                false
+            }
+
+            oldList[oldItemPosition].image != newList[newItemPosition].image -> {
+                false
+            }
+
+            oldList[oldItemPosition].title != newList[newItemPosition].title -> {
+                false
+            }
+
+            oldList[oldItemPosition].readyInMinutes != newList[newItemPosition].readyInMinutes -> {
+                false
+            }
+
+            oldList[oldItemPosition].summary != newList[newItemPosition].summary -> {
+                false
+            }
+
+            oldList[oldItemPosition].aggregateLikes != newList[newItemPosition].aggregateLikes -> {
+                false
+            }
+
+            else -> true
+        }
     }
 }

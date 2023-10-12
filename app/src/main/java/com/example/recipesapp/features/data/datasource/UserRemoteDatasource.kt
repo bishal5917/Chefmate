@@ -1,6 +1,7 @@
 package com.example.recipesapp.features.data.datasource
 
 import com.example.recipesapp.core.configs.ApiConfig
+import com.example.recipesapp.features.data.models.food_joke.FoodJokeResponseModel
 import com.example.recipesapp.features.data.models.recipe_detail.RecipeDetailResponseModel
 import com.example.recipesapp.features.data.models.recipe_detail.RecipeRequestModel
 import com.example.recipesapp.features.data.models.recipes.RecipeResponseModel
@@ -16,6 +17,7 @@ import javax.inject.Inject
 interface UserRemoteDatasource {
     suspend fun getRecipes(queryRequestModel: QueryRequestModel): Response<RecipeResponseModel>
     suspend fun getRecipeDetail(recipeRequestModel: RecipeRequestModel): Response<RecipeDetailResponseModel>
+    suspend fun getJoke(): Response<FoodJokeResponseModel>
 }
 
 class UserRemoteDatasourceImpl @Inject constructor(private val apiService: ApiService) :
@@ -30,5 +32,9 @@ class UserRemoteDatasourceImpl @Inject constructor(private val apiService: ApiSe
         return apiService.getRecipeDetail(
             recipeId = recipeRequestModel.recipeId
         )
+    }
+
+    override suspend fun getJoke(): Response<FoodJokeResponseModel> {
+        return apiService.getJoke()
     }
 }

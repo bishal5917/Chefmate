@@ -14,7 +14,6 @@ data class RecipeResponseModel(
     data class Recipe(
         @SerializedName("id") val id: Int?,
         @SerializedName("image") val image: String?,
-        @SerializedName("imageType") val imageType: String?,
         @SerializedName("title") val title: String?,
         @SerializedName("vegan") val Vegan: Boolean?,
         @SerializedName("readyInMinutes") val readyInMinutes: Int?,
