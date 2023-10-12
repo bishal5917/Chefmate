@@ -9,5 +9,5 @@ import com.example.recipesapp.utils.Constants.FAVOURITE_RECIPES_TABLE
 class FavouritesEntity(
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0,
-    var result: RecipeResponseModel.Recipe
+//    var result: RecipeResponseModel.Recipe
 )

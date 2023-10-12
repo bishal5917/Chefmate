@@ -1,5 +1,8 @@
 package com.example.recipesapp.di
 
+import com.example.recipesapp.database.RecipesDao
+import com.example.recipesapp.features.data.datasource.LocalDatasource
+import com.example.recipesapp.features.data.datasource.LocalDatasourceImpl
 import com.example.recipesapp.features.data.datasource.UserRemoteDatasource
 import com.example.recipesapp.features.data.datasource.UserRemoteDatasourceImpl
 import com.example.recipesapp.features.data.repositories.UserRepositoryImpl
@@ -19,13 +22,21 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
     @Provides
-    fun provideDataSource(apiService: ApiService): UserRemoteDatasource {
+    fun provideRemoteDataSource(apiService: ApiService): UserRemoteDatasource {
         return UserRemoteDatasourceImpl(apiService)
     }
 
     @Provides
-    fun provideRepository(dataSource: UserRemoteDatasource): UserRepository {
-        return UserRepositoryImpl(dataSource)
+    fun provideLocalDataSource(recipesDao: RecipesDao): LocalDatasource {
+        return LocalDatasourceImpl(recipesDao)
+    }
+
+    @Provides
+    fun provideRepository(
+        remoteDataSource: UserRemoteDatasource,
+        localDatasource: LocalDatasource
+    ): UserRepository {
+        return UserRepositoryImpl(remoteDataSource, localDatasource)
     }
 
     //registering usecases

@@ -7,10 +7,10 @@ import com.example.recipesapp.utils.entities.FavouritesEntity
 
 @Database(
     entities = [FavouritesEntity::class],
-    version = 2,
+    version = 1,
     exportSchema = false
 )
-@TypeConverters(RecipesTypeConverter::class)
+//@TypeConverters(RecipesTypeConverter::class)
 abstract class RecipesDatabase: RoomDatabase() {
     abstract fun recipesDao(): RecipesDao
 }

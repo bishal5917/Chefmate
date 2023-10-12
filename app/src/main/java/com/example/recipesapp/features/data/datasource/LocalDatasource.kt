@@ -5,21 +5,29 @@ import com.example.recipesapp.utils.entities.FavouritesEntity
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class LocalDatasource @Inject constructor(private val recipesDao: RecipesDao) {
+interface LocalDatasource {
+    fun getFavouriteRecipes(): Flow<List<FavouritesEntity>>
+    suspend fun insertFavouriteRecipe(favouritesEntity: FavouritesEntity)
+    suspend fun deleteFavouriteRecipe(favouritesEntity: FavouritesEntity)
+    suspend fun deleteAllFavouriteRecipe()
+}
 
-    fun getFavouriteRecipes(): Flow<List<FavouritesEntity>> {
+class LocalDatasourceImpl @Inject constructor(private val recipesDao: RecipesDao) :
+    LocalDatasource {
+
+    override fun getFavouriteRecipes(): Flow<List<FavouritesEntity>> {
         return recipesDao.getFavouriteRecipes()
     }
 
-    suspend fun insertFavouriteRecipe(favouritesEntity: FavouritesEntity) {
+    override suspend fun insertFavouriteRecipe(favouritesEntity: FavouritesEntity) {
         return recipesDao.insertFavouriteRecipe(favouritesEntity)
     }
 
-    suspend fun deleteFavouriteRecipe(favouritesEntity: FavouritesEntity) {
+    override suspend fun deleteFavouriteRecipe(favouritesEntity: FavouritesEntity) {
         return recipesDao.deleteFavouriteRecipe(favouritesEntity)
     }
 
-    suspend fun deleteAllFavouriteRecipe() {
+    override suspend fun deleteAllFavouriteRecipe() {
         return recipesDao.deleteAllFavouriteRecipe()
     }
 }

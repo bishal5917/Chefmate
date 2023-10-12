@@ -6,7 +6,6 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
 class RecipesTypeConverter {
-
     var gson = Gson()
 
     @TypeConverter

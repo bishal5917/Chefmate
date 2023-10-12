@@ -1,7 +1,7 @@
 package com.example.recipesapp.utils.models
 
 data class QueryRequestModel(
-    val number: String = "5",
+    val number: String = "10",
     val offset: String = "0",
     val diet: String? = null,
     val type: String? = null,
