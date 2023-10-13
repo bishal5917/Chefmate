@@ -54,7 +54,7 @@ class FoodJokeFragment : Fragment() {
     private fun observeLiveData() {
         jokeViewModel.jokeState.observe(viewLifecycleOwner) { response ->
             if (response.status == JokeState.JokeStatus.LOADING) {
-                //set text to ...
+                binding.tvFoodJoke.text=". . ."
             }
             if (response.status == JokeState.JokeStatus.SUCCESS) {
                 binding.result = response.joke

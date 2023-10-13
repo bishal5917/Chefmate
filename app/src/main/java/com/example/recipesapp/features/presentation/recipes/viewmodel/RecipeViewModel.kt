@@ -34,7 +34,7 @@ class RecipeViewModel @Inject constructor(private val getRecipeUsecase: GetRecip
                     QueryRequestModel(
                         diet = _recipeState.value?.dietType, type = _recipeState.value?.mealType,
                         addRecipeInformation = true,
-                        query = _recipeState.value?.query
+                        query = _recipeState.value?.query,
                     )
                 )
                 Log.d(

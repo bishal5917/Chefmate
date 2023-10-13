@@ -1,6 +1,7 @@
 package com.example.recipesapp.features.presentation.recipes
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -43,14 +44,32 @@ class RecipesFragment : Fragment() {
         setupRecyclerView()
         pullToRefresh()
         openFilterBottomSheet()
-
         return rview
     }
 
     private fun setupRecyclerView() {
         val recyclerView = rview.findViewById<RecyclerView>(R.id.rvRecipes)
         recyclerView.adapter = recipesAdapter
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        val layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.layoutManager = layoutManager
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+
+                if (dy > 0) {
+                    val visibleItemCount = layoutManager.childCount
+                    val pastVisibleItem = layoutManager.findFirstCompletelyVisibleItemPosition()
+                    val total = recipesAdapter.itemCount
+
+                    if ((visibleItemCount + pastVisibleItem) >= total) {
+                        //call fetch more
+                        val pb = rview.findViewById<ProgressBar>(R.id.pbPaginate)
+                        pb.visibility = View.VISIBLE
+                        Log.d("END", "END OF REC VIEW")
+                    }
+                }
+                super.onScrolled(recyclerView, dx, dy)
+            }
+        })
     }
 
     private fun pullToRefresh() {
