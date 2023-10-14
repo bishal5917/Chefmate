@@ -57,8 +57,6 @@ class RecipesFragment : Fragment() {
         recyclerView.layoutManager = layoutManager
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-//                val visibleItemCount = layoutManager.childCount
-//                val total = recipesAdapter.itemCount
                 val total = layoutManager.itemCount
                 val lastVisible = layoutManager.findLastCompletelyVisibleItemPosition()
 
@@ -100,11 +98,9 @@ class RecipesFragment : Fragment() {
             if (response.status == RecipeState.RecipeStatus.LOADING) {
                 endReached = true
                 progressBar.visibility = View.VISIBLE
-//                recView.visibility = View.INVISIBLE
             }
             if (response.status == RecipeState.RecipeStatus.SUCCESS) {
                 progressBar.visibility = View.GONE
-//                recView.visibility = View.VISIBLE
                 response.recipes?.let { recipesAdapter.setData(response.recipes) }
                 endReached = false
             }
