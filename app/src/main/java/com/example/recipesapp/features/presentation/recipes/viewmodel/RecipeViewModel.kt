@@ -26,29 +26,20 @@ class RecipeViewModel @Inject constructor(private val getRecipeUsecase: GetRecip
 
     private val _recipeState = MutableLiveData(RecipeState.idle)
     val recipeState: LiveData<RecipeState> = _recipeState
+    private var offset: Int = 0;
 
     fun onEvent(event: RecipeEvent) {
         when (event) {
             is RecipeEvent.GetRecipes -> {
-                getRecipes(
-                    QueryRequestModel(
-                        diet = _recipeState.value?.dietType, type = _recipeState.value?.mealType,
-                        addRecipeInformation = true,
-                        query = _recipeState.value?.query,
-                    )
-                )
-                Log.d(
-                    "SelChipsInit",
-                    "${_recipeState.value?.mealTypeChipId}-${_recipeState.value?.dietTypeChipId} "
-                )
+                getRecipes(event.isScrolling, event.startFetch)
             }
+
             is RecipeEvent.SelectRecipesFilter -> {
                 _recipeState.value = _recipeState.value?.copy(
                     mealType = event.mealType,
                     dietType = event.dietType,
                     dietTypeChipId = if (event.dietTypeChipId != 0) event.dietTypeChipId else _recipeState.value!!.dietTypeChipId,
-                    mealTypeChipId = if (event.mealTypeChipId != 0) event.mealTypeChipId else _recipeState
-                        .value!!.mealTypeChipId,
+                    mealTypeChipId = if (event.mealTypeChipId != 0) event.mealTypeChipId else _recipeState.value!!.mealTypeChipId,
                     query = event.query,
                 )
                 Log.d(
@@ -56,36 +47,59 @@ class RecipeViewModel @Inject constructor(private val getRecipeUsecase: GetRecip
                     "${_recipeState.value?.mealTypeChipId}-${_recipeState.value?.dietTypeChipId} "
                 )
             }
+
             is RecipeEvent.PersistSelectedChips -> {
                 persistSelectedChips(event.mealChipGrId, event.dietChipGrId)
             }
+
             is RecipeEvent.Reset -> {
                 reset()
             }
         }
     }
 
-    private fun getRecipes(queryRequestModel: QueryRequestModel) {
+    private fun getRecipes(isScrolling: Boolean, startFetch: Boolean) {
+        if (_recipeState.value?.status == RecipeState.RecipeStatus.LOADING || _recipeState.value?.status == RecipeState.RecipeStatus.FAILED) {
+            return
+        }
+        val queryRequestModel = QueryRequestModel(
+            diet = _recipeState.value?.dietType, type = _recipeState.value?.mealType,
+            addRecipeInformation = true,
+            query = _recipeState.value?.query,
+            offset = offset,
+        )
+        if (isScrolling == false && startFetch == true) {
+            offset = 0;
+            _recipeState.postValue(
+                _recipeState.value?.copy(
+                    status = RecipeState.RecipeStatus.LOADING,
+                    message = "Getting Recipes...",
+                    recipes = null
+                )
+            )
+        }
         getRecipeUsecase.call(queryRequestModel).onEach { result ->
             when (result) {
-                is Resource.Loading -> {
-                    _recipeState.postValue(
-                        _recipeState.value?.copy(
-                            status = RecipeState.RecipeStatus.LOADING,
-                            message = "Getting Recipes..."
-                        )
-                    )
-                }
+//                is Resource.Loading -> {
+//                    _recipeState.postValue(
+//                        _recipeState.value?.copy(
+//                            status = RecipeState.RecipeStatus.LOADING,
+//                            message = "Getting Recipes..."
+//                        )
+//                    )
+//                }
                 is Resource.Success -> {
                     _recipeState.postValue(
                         _recipeState.value?.copy(
                             status = RecipeState.RecipeStatus.SUCCESS,
                             message = "Recipes fetched...",
-                            recipes = result.data,
+                            recipes = result.data?.results as List<RecipeResponseModel.Recipe>?,
                         )
                     )
-                    Log.d("RecipeViewModel", "API Response, ${result.data}")
+                    offset += 1
+                    Log.d("Get DATA", "API Response, ${_recipeState.value?.recipes}")
                 }
+
                 is Resource.Error -> {
                     _recipeState.postValue(
                         _recipeState.value?.copy(
@@ -94,6 +108,8 @@ class RecipeViewModel @Inject constructor(private val getRecipeUsecase: GetRecip
                         )
                     )
                 }
+
+                else -> {}
             }
         }.launchIn(viewModelScope)
     }

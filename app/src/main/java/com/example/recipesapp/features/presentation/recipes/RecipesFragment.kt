@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.transition.Visibility
 import com.example.recipesapp.R
+import com.example.recipesapp.features.data.models.recipes.RecipeResponseModel
 import com.example.recipesapp.features.presentation.recipes.adapters.RecipeAdapter
 import com.example.recipesapp.features.presentation.recipes.viewmodel.RecipeEvent
 import com.example.recipesapp.features.presentation.recipes.viewmodel.RecipeState
@@ -33,6 +34,8 @@ class RecipesFragment : Fragment() {
     lateinit var recipeViewModel: RecipeViewModel
 
     private lateinit var rview: View
+
+    private var endReached = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -54,18 +57,17 @@ class RecipesFragment : Fragment() {
         recyclerView.layoutManager = layoutManager
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+//                val visibleItemCount = layoutManager.childCount
+//                val total = recipesAdapter.itemCount
+                val total = layoutManager.itemCount
+                val lastVisible = layoutManager.findLastCompletelyVisibleItemPosition()
 
-                if (dy > 0) {
-                    val visibleItemCount = layoutManager.childCount
-                    val pastVisibleItem = layoutManager.findFirstCompletelyVisibleItemPosition()
-                    val total = recipesAdapter.itemCount
-
-                    if ((visibleItemCount + pastVisibleItem) >= total) {
-                        //call fetch more
-                        val pb = rview.findViewById<ProgressBar>(R.id.pbPaginate)
-                        pb.visibility = View.VISIBLE
-                        Log.d("END", "END OF REC VIEW")
-                    }
+                if (lastVisible >= total - 1 && !endReached) {
+                    recipeViewModel.onEvent(
+                        RecipeEvent.GetRecipes(isScrolling = true, startFetch = false)
+                    )
+                    endReached = true
+                    Log.d("END", "END OF REC VIEW")
                 }
                 super.onScrolled(recyclerView, dx, dy)
             }
@@ -76,7 +78,9 @@ class RecipesFragment : Fragment() {
         val swipeToRefresh = rview.findViewById<SwipeRefreshLayout>(R.id.swipeToRefresh)
         swipeToRefresh.setOnRefreshListener {
             recipeViewModel.onEvent(RecipeEvent.Reset)
-            recipeViewModel.onEvent(RecipeEvent.GetRecipes(QueryRequestModel()))
+            recipeViewModel.onEvent(
+                RecipeEvent.GetRecipes(isScrolling = false, startFetch = true)
+            )
             swipeToRefresh.isRefreshing = false
         }
     }
@@ -91,18 +95,21 @@ class RecipesFragment : Fragment() {
     private fun requestApi() {
         val progressBar = rview.findViewById<ProgressBar>(R.id.loadingProgress)
         val recView = rview.findViewById<RecyclerView>(R.id.rvRecipes)
-        recipeViewModel.onEvent(RecipeEvent.GetRecipes(QueryRequestModel()))
+        recipeViewModel.onEvent(RecipeEvent.GetRecipes(isScrolling = false, startFetch = true))
         recipeViewModel.recipeState.observe(viewLifecycleOwner) { response ->
             if (response.status == RecipeState.RecipeStatus.LOADING) {
+                endReached = true
                 progressBar.visibility = View.VISIBLE
-                recView.visibility = View.INVISIBLE
+//                recView.visibility = View.INVISIBLE
             }
             if (response.status == RecipeState.RecipeStatus.SUCCESS) {
                 progressBar.visibility = View.GONE
-                recView.visibility = View.VISIBLE
-                response.recipes?.results.let { recipesAdapter.setData(response.recipes!!) }
+//                recView.visibility = View.VISIBLE
+                response.recipes?.let { recipesAdapter.setData(response.recipes) }
+                endReached = false
             }
             if (response.status == RecipeState.RecipeStatus.FAILED) {
+                endReached = true
                 progressBar.visibility = View.GONE
                 CustomToast.showToast(context = requireContext(), "${response.message}")
             }

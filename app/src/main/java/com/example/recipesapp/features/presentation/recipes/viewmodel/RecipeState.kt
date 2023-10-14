@@ -10,7 +10,7 @@ data class RecipeState(
     val query: String? = null,
     val mealTypeChipId: Int = 0,
     val dietTypeChipId: Int = 0,
-    val recipes: RecipeResponseModel? = null
+    val recipes: List<RecipeResponseModel.Recipe>? = null
 ) {
     companion object {
         val idle = RecipeState(RecipeStatus.IDLE, message = "Idle")

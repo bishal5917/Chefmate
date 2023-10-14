@@ -5,8 +5,8 @@ import com.google.android.material.chip.ChipGroup
 
 sealed class RecipeEvent {
     data class GetRecipes(
-        val queryRequestModel: QueryRequestModel,
-        val isScrolling: Boolean = false
+        val isScrolling: Boolean,
+        val startFetch: Boolean,
     ) :
         RecipeEvent()
 
