@@ -43,7 +43,7 @@ class RecipesFragment : Fragment() {
         // Inflate the layout for this fragment
         rview = inflater.inflate(R.layout.fragment_recipes, container, false)
 
-//        requestApi()
+        requestApi()
         setupRecyclerView()
         pullToRefresh()
         openFilterBottomSheet()
