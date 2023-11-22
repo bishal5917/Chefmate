@@ -60,7 +60,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="12dp"
             android:fontFamily="cursive"
-            android:textColor="@color/neutral_800"
+            android:textStyle="bold"
             android:textSize="22sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -197,7 +197,6 @@
                     setSummary="@{result.summary}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/neutral_600"
                     android:textSize="16sp" />
             </LinearLayout>
         </ScrollView>

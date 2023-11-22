@@ -36,8 +36,6 @@ class FoodJokeFragment : Fragment() {
         binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_food_joke, container, false
         )
-        //call joke fetching api
-        jokeViewModel.onEvent(JokeEvent.GetJoke)
         observeLiveData()
         pullToRefresh()
         return binding.root
@@ -53,8 +51,12 @@ class FoodJokeFragment : Fragment() {
 
     private fun observeLiveData() {
         jokeViewModel.jokeState.observe(viewLifecycleOwner) { response ->
+            if (response.status == JokeState.JokeStatus.IDLE) {
+                //call joke fetching api
+                jokeViewModel.onEvent(JokeEvent.GetJoke)
+            }
             if (response.status == JokeState.JokeStatus.LOADING) {
-                binding.tvFoodJoke.text=". . ."
+                binding.tvFoodJoke.text = ". . ."
             }
             if (response.status == JokeState.JokeStatus.SUCCESS) {
                 binding.result = response.joke

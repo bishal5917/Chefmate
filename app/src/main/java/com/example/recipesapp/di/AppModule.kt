@@ -43,16 +43,19 @@ object AppModule {
 
     //registering usecases
     @Provides
+    @Singleton
     fun provideRecipesUsecase(repo: UserRepository): GetRecipeUsecase {
         return GetRecipeUsecase(repo)
     }
 
     @Provides
+    @Singleton
     fun provideRecipeDetailUsecase(repo: UserRepository): GetRecipeDetailUsecase {
         return GetRecipeDetailUsecase(repo)
     }
 
     @Provides
+    @Singleton
     fun provideFoodJokeUsecase(repo: UserRepository): GetFoodJokeUsecase {
         return GetFoodJokeUsecase(repo)
     }
