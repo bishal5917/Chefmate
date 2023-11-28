@@ -76,6 +76,9 @@ class FilterRecipeBottomsheet : BottomSheetDialogFragment() {
                     query = etSearchRecipe.text.toString(),
                 )
             )
+            recipeViewModel.onEvent(
+                RecipeEvent.GetRecipes(isScrolling = false, startFetch = true)
+            )
             findNavController().navigate(R.id.action_filterRecipeBottomsheet2_to_recipesFragment)
         }
     }
